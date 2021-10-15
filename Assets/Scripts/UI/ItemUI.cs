@@ -8,6 +8,8 @@ internal class ItemUI: MonoBehaviour
     private TMP_Text titleText;
     [SerializeField]
     private GameObject flag;
+    [SerializeField]
+    private TextFormatter costText;
 
     public Item ItemObject;
 
@@ -22,5 +24,8 @@ internal class ItemUI: MonoBehaviour
             return;
         titleText.text = ItemObject.Name;
         flag.SetActive(ItemObject.IsActive);
+
+        if (costText)
+            costText.Format(ItemObject.Cost.ToString());
     }
 }

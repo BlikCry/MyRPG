@@ -6,6 +6,7 @@ using UnityEngine;
 public class Item
 {
     public readonly string Name;
+    public readonly int Cost;
 
     public bool IsActive { get; private set; }
 
@@ -14,6 +15,7 @@ public class Item
     protected Item(ItemTemplate template)
     {
         Name = template.Title;
+        Cost = template.Cost;
     }
 
     public void ToggleActive() => IsActive = !IsActive;
