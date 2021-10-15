@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "new Quest", menuName = "QuestData", order = -1)]
+    [CreateAssetMenu(fileName = "new Quest", menuName = "QuestData", order = -201)]
     public class QuestData: ScriptableObject
     {
         public enum State

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SimpleMed
   m_EditorClassIdentifier: 
   title: Med
+  cost: 50
   aidValue: 3

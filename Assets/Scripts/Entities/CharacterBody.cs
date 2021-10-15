@@ -27,6 +27,7 @@ public class CharacterBody : MortalBody, IUniqueSaveDataProvider
     private int coins;
 
     public int Coins => coins;
+    public Item[] Items => items.ToArray();
 
     public static CharacterBody Instance;
 
@@ -66,6 +67,13 @@ public class CharacterBody : MortalBody, IUniqueSaveDataProvider
     public void AddItem(Item item)
     {
         items.Add(item);
+    }
+
+    public void RemoveItem(Item item)
+    {
+        if (item.IsActive)
+            ToggleEquip(item, out _);
+        items.Remove(item);
     }
 
     public void ToggleEquip(Item item, out bool isLost)

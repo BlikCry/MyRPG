@@ -58,7 +58,7 @@ public class CharacterBrain : MonoBehaviour
         {
             door.Go();
         }
-        else if (tile.TryGetComponent<SimpleNpc>(out var npc))
+        else if (tile.TryGetComponent<BaseNpc>(out var npc))
         {
             npc.Interact();
         }

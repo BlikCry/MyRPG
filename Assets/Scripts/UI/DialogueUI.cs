@@ -1,4 +1,5 @@
 ﻿using System;
+using Misc;
 using QuantumTek.QuantumDialogue;
 using ScriptableObjects;
 using TMPro;
@@ -10,6 +11,9 @@ namespace UI
 {
     internal class DialogueUI: MonoBehaviour
     {
+        [SerializeField]
+        private GameObject blockPanel;
+
         [SerializeField]
         private GameObject ui;
         [SerializeField]
@@ -45,13 +49,13 @@ namespace UI
             currentChoice = null;
             currentQuestNode = null;
             ignoreBaseTap = false;
-
             currentDialogue = dialogue;
             currentConversation = (isAgain 
                 ? dialogue.GetConversation(QD_Conversation.ConversationType.Again)
                 : dialogue.GetConversation(QD_Conversation.ConversationType.Startup)) ?? dialogue.GetConversation(QD_Conversation.ConversationType.Base);
             currentMessage = dialogue.GetMessage(currentConversation.FirstMessage);
             ui.SetActive(true);
+            blockPanel.SetActive(true);
             NextMessage();
         }
 
@@ -60,11 +64,8 @@ namespace UI
             if (ignoreBaseTap)
                 return;
 
-            for (var i = 0; i < buttonContainer.childCount; i++)
-            {
-                Destroy(buttonContainer.GetChild(i).gameObject);
-            }
-
+            buttonContainer.RemoveChildren();
+            
             if (currentMessage is null)
             {
                 if (currentConversation?.Type == QD_Conversation.ConversationType.Startup ||
@@ -77,9 +78,9 @@ namespace UI
                 }
                 Time.timeScale = 1;
                 ui.SetActive(false);
+                blockPanel.SetActive(false);
                 return;
             }
-
             text.text = currentMessage.MessageText;
             var speaker = currentDialogue.GetSpeaker(currentMessage.Speaker);
             icon.sprite = speaker.Icon;

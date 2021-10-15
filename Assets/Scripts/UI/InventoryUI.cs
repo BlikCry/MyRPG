@@ -1,4 +1,5 @@
 ﻿using System;
+using Misc;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,8 @@ internal class InventoryUI: MonoBehaviour
 {
     private const int Rows = 6;
 
+    [SerializeField]
+    private GameObject ui;
     [SerializeField]
     private CharacterBody body;
     [SerializeField]
@@ -43,11 +46,19 @@ internal class InventoryUI: MonoBehaviour
 
     public void ShowInventory()
     {
+        Time.timeScale = 0;
+        ui.SetActive(true);
         selectedItem = null;
         infoName.text = "";
         infoDescription.text = "";
         page = 0;
         ShowPage();
+    }
+
+    public void HideInventory()
+    {
+        Time.timeScale = 1;
+        ui.SetActive(false);
     }
 
     private void ShowPage()
@@ -57,10 +68,7 @@ internal class InventoryUI: MonoBehaviour
 
         page = Mathf.Clamp(page, 0, MaxPage - 1);
 
-        for (var i = 0; i < itemContainer.childCount; i++)
-        {
-            Destroy(itemContainer.GetChild(i).gameObject);
-        }
+        itemContainer.RemoveChildren();
 
         var startId = Rows * page;
         var endId = Math.Min(startId + Rows, body.ItemCount);
