@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 480971b2d2374f80b4c809eb479da4c4, type: 3}
+  m_Name: Quest
+  m_EditorClassIdentifier: 
+  QuestID: "c41caa68cf00e76478bb13df3dc00b7f15 \u043E\u043A\u0442\u044F\u0431\u0440\u044F
+    2021 \u0433."
+  QuestName: 
+  QuestDescription: 
+  LogStrings:
+  - Body unie_1 dies
+  - Body unie_2 dies
+  - Body unie_3 dies
+  - Body unie_4 dies
+  - Body unie_5 dies
+  - Body unie_6 dies
+  - Body unie_7 dies
+  - Body unie_8 dies
+  RewardItems:
+  - {fileID: 11400000, guid: b8fd6fad97bd5ed4f8c914f5399fb5ad, type: 2}
+  - {fileID: 11400000, guid: b8fd6fad97bd5ed4f8c914f5399fb5ad, type: 2}
+  RewardCoins: 300

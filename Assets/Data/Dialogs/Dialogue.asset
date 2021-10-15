@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc788fe28a1947c5906bf24c0472406, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  Conversations:
+  - ID: 26
+    Name: 
+    FirstMessage: 2
+    Type: 0
+  - ID: 27
+    Name: 
+    FirstMessage: 21
+    Type: 1
+  - ID: 28
+    Name: 
+    FirstMessage: 25
+    Type: 2
+  Speakers:
+  - ID: 1
+    Name: Asriel
+    Icon: {fileID: 634604462993384834, guid: e9c1009f67a90ff4c92e6e34497c0308, type: 3}
+  Messages:
+  - ID: 2
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: -1
+    NextMessage: -1
+    MessageText: 'Hi! My name is Asriel! '
+    Clip: {fileID: 0}
+  - ID: 15
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: -1
+    NextMessage: 16
+    MessageText: I have some job for you!Are you interested?
+    Clip: {fileID: 0}
+  - ID: 17
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: -1
+    NextMessage: -1
+    MessageText: Wonderful! You need to kill monsters outside house. Will you do
+      it? I'll give you 300 gold!
+    Clip: {fileID: 0}
+  - ID: 18
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: 14
+    NextMessage: -1
+    MessageText: Did you kill monsters? I am still waiting.
+    Clip: {fileID: 0}
+  - ID: 19
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: -1
+    NextMessage: -1
+    MessageText: Thank you for killing monsters! I'll give you this meds, in case
+      you were hurted!
+    Clip: {fileID: 0}
+  - ID: 21
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: -1
+    NextMessage: -1
+    MessageText: Hi! There you are again!
+    Clip: {fileID: 0}
+  - ID: 25
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: -1
+    NextMessage: 14
+    MessageText: Hey! Listen here!
+    Clip: {fileID: 0}
+  - ID: 30
+    Speaker: 1
+    SpeakerName: Asriel
+    PreviousMessage: -1
+    NextMessage: -1
+    MessageText: Thank you again!
+    Clip: {fileID: 0}
+  Choices:
+  - ID: 14
+    Choices:
+    - 
+    - 
+    - 
+    - 
+    NextMessages: 0f00000012000000130000001e000000
+    QuestData: {fileID: 11400000, guid: 46f147215b2263148b19925cba285b8c, type: 2}
+    AcceptMessage: Ok!
+    DenyMessage: Not now
+  - ID: 16
+    Choices:
+    - Yes
+    - No
+    NextMessages: 11000000ffffffff
+    QuestData: {fileID: 0}
+    AcceptMessage: 
+    DenyMessage: 
