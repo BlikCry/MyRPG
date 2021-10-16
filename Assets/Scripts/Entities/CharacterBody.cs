@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Entities;
 using Items;
 using UnityEngine;
 
@@ -18,8 +19,9 @@ public class CharacterBody : MortalBody, IUniqueSaveDataProvider
     public Weapon Weapon => weapon;
     public Armor Armor => armor;
 
-    public float Damage => weapon?.Damage ?? baseDamage;
-    public float MoveDuration => moveDuration;
+    public float Damage => (weapon?.Damage ?? baseDamage) * LevelSystem.AttackMultiplier;
+    public float MoveDuration => moveDuration / LevelSystem.SpeedMultiplier;
+    protected override float HealthMultiplier => LevelSystem.HealthMultiplier;
 
     public int ItemCount => items.Count;
 
@@ -31,6 +33,8 @@ public class CharacterBody : MortalBody, IUniqueSaveDataProvider
 
     public static CharacterBody Instance;
 
+    public ExperienceContainer LevelSystem { get; private set; }
+
     private void Awake()
     {
         Instance = this;
@@ -38,6 +42,11 @@ public class CharacterBody : MortalBody, IUniqueSaveDataProvider
         {
             items = new List<Item>();
             startupItems.ForEach(item => items.Add(Item.GetItem(item)));
+        }
+
+        if (LevelSystem is null)
+        {
+            LevelSystem = new ExperienceContainer(1, 0);
         }
     }
 
@@ -116,6 +125,9 @@ public class CharacterBody : MortalBody, IUniqueSaveDataProvider
         var data = stream.ToArray();
 
         var buffer = new ByteBuffer();
+        buffer.WriteInt32(LevelSystem.Level);
+        buffer.WriteInt32(LevelSystem.Experience);
+
         buffer.WriteInt32(coins);
         buffer.WriteInt32(data.Length);
         buffer.WriteBytes(data);
@@ -127,6 +139,11 @@ public class CharacterBody : MortalBody, IUniqueSaveDataProvider
     public override void LoadState(byte[] data)
     {
         var buffer = new ByteBuffer(data);
+        var level = buffer.ReadInt32();
+        var exp = buffer.ReadInt32();
+
+        LevelSystem = new ExperienceContainer(level, exp);
+
         coins = buffer.ReadInt32();
         var itemsData = buffer.ReadBytes(buffer.ReadInt32());
 

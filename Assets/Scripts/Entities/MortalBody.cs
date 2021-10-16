@@ -14,19 +14,26 @@ public class MortalBody : MonoBehaviour, ISaveDataProvider
     [SerializeField]
     private string logBodyName;
 
-    public int MaxHealth => maxHealth;
-    public float Health => health;
+    protected virtual float HealthMultiplier => 1;
+    public int MaxHealth => Mathf.CeilToInt(maxHealth * HealthMultiplier);
+    public float Health => RealHealth;
     public event Action OnDie;
-    
+
+    private float RealHealth
+    {
+        get => health * HealthMultiplier;
+        set => health = value / HealthMultiplier;
+    }
+
     public void TakeDamage(float damage)
     {
-        health -= CalculateDamage(damage);
+        RealHealth -= CalculateDamage(damage);
         CheckHealth();
     }
 
     public void RestoreHealth(float value)
     {
-        health = Mathf.Min(health + value, MaxHealth);
+        RealHealth = Mathf.Min(RealHealth + value, MaxHealth);
     }
 
     public void Die()

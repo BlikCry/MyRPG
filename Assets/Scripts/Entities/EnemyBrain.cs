@@ -9,6 +9,8 @@ public class EnemyBrain : MonoBehaviour
     private float thinkDuration;
     [SerializeField]
     private float damage;
+    [SerializeField]
+    private int experience;
 
     private OneBitAnimator obAnimator;
     private MortalBody body;
@@ -17,6 +19,10 @@ public class EnemyBrain : MonoBehaviour
     {
         obAnimator = GetComponent<OneBitAnimator>();
         body = GetComponent<MortalBody>();
+        body.OnDie += () =>
+        {
+            CharacterBody.Instance.LevelSystem.AddExperience(experience);
+        };
     }
 
     private void Start()

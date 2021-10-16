@@ -26,6 +26,8 @@ namespace ScriptableObjects
         public string[] LogStrings;
         public ItemTemplate[] RewardItems;
         public int RewardCoins;
+        public int RewardExperience;
+
         public State QuestState => isDone ? State.IsComplete : !isActive ? State.IsNotAccepted : logStringsComplete < logCount.Count ? State.IsAccepted : State.IsDone;
 
         [NonSerialized]
@@ -70,6 +72,7 @@ namespace ScriptableObjects
             {
                 CharacterBody.Instance.AddItem(Item.GetItem(itemTemplate));
             }
+            CharacterBody.Instance.LevelSystem.AddExperience(RewardExperience);
             CharacterBody.Instance.AddCoins(RewardCoins);
         }
 
