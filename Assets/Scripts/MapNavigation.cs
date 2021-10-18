@@ -24,6 +24,11 @@ public class MapNavigation : MonoBehaviour
         entityList.Add((player, false));
     }
 
+    public int GetMonsterCount()
+    {
+        return entityList.Count(e => e.transform && e.isEnemy);
+    }
+
     public void AddEntity(Transform entity, bool isEnemy)
     {
         entityList.Add((entity, isEnemy));

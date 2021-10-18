@@ -11,5 +11,15 @@ namespace Misc
                 Object.Destroy(transform.GetChild(i).gameObject);
             }
         }
+
+        public static T GetRandomItem<T>(this T[] array)
+        {
+            return array[Random.Range(0, array.Length)];
+        }
+
+        public static T GetRandomItem<T>(this T[] array, out int index)
+        {
+            return array[index = Random.Range(0, array.Length)];
+        }
     }
 }

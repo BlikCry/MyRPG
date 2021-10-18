@@ -21,22 +21,22 @@ public class EnemyBrain : MonoBehaviour
     {
         obAnimator = GetComponent<OneBitAnimator>();
         body = GetComponent<MortalBody>();
-        body.OnDie += () =>
-        {
-            if (attackBody is null)
-                CharacterBody.Instance.LevelSystem.AddExperience(experience);
-        };
         body.OnDamageTaken += (t, _) => attackBody = t;
     }
 
     private void Start()
     {
         StartCoroutine(Movement());
+        
         MapNavigation.Instance.AddEntity(transform, true);
         body.OnDie += () => MapNavigation.Instance.RemoveEntity(transform);
+        body.OnDie += () =>
+        {
+            if (attackBody is null)
+                CharacterBody.Instance.LevelSystem.AddExperience(experience);
+        };
     }
-
-    // Update is called once per frame
+    
     private IEnumerator Movement()
     {
         var wait = new WaitForSeconds(thinkDuration);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,27 +19,18 @@ internal class LivesIndicator: MonoBehaviour
     [SerializeField]
     private Color outlineColor;
 
-    private List<Image> icons = new List<Image>();
+    private readonly List<Image> icons = new List<Image>();
 
     private void Start()
     {
-        for (var i = 0; i < body.MaxHealth; i++)
-        {
-            var icon = new GameObject();
-            icon.transform.SetParent(container);
-            var image = icon.AddComponent<Image>();
-            icon.transform.localScale = Vector3.one;
-            image.sprite = fullHeart;
-            image.preserveAspect = true;
-            var outline = icon.AddComponent<Outline>();
-            outline.effectDistance = new Vector2(5, 0);
-            outline.effectColor = outlineColor;
-            icons.Add(image);
-        }
+        RecreateIcons();
     }
 
     private void Update()
     {
+        if (container.childCount != body.MaxHealth)
+            RecreateIcons();
+
         for (var i = 1; i <= body.MaxHealth; i++)
         {
             Sprite icon;
@@ -57,6 +49,25 @@ internal class LivesIndicator: MonoBehaviour
                     icon = halfHeart;
             }
             icons[i - 1].sprite = icon;
+        }
+    }
+
+    private void RecreateIcons()
+    {
+        icons.Clear();
+        container.RemoveChildren();
+        for (var i = 0; i < body.MaxHealth; i++)
+        {
+            var icon = new GameObject();
+            icon.transform.SetParent(container);
+            var image = icon.AddComponent<Image>();
+            icon.transform.localScale = Vector3.one;
+            image.sprite = fullHeart;
+            image.preserveAspect = true;
+            var outline = icon.AddComponent<Outline>();
+            outline.effectDistance = new Vector2(5, 0);
+            outline.effectColor = outlineColor;
+            icons.Add(image);
         }
     }
 }
