@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Objects;
 using UnityEngine;
@@ -12,6 +11,10 @@ public class CharacterBrain : MonoBehaviour
     {
         body = GetComponent<CharacterBody>();
         obAnimator = GetComponent<OneBitAnimator>();
+    }
+
+    private void Start()
+    {
         StartCoroutine(Movement());
     }
 
