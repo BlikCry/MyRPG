@@ -13,7 +13,7 @@ internal class Chest: MonoBehaviour, ISaveDataProvider
 
     private void Start()
     {
-        MapNavigation.Instance.AddEntity(transform);
+        MapNavigation.Instance.AddEntity(transform, false);
     }
 
     public void Open(CharacterBody character)

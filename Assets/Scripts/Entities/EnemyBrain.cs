@@ -15,21 +15,25 @@ public class EnemyBrain : MonoBehaviour
     private OneBitAnimator obAnimator;
     private MortalBody body;
 
+    private Transform attackBody;
+
     private void Awake()
     {
         obAnimator = GetComponent<OneBitAnimator>();
         body = GetComponent<MortalBody>();
         body.OnDie += () =>
         {
-            CharacterBody.Instance.LevelSystem.AddExperience(experience);
+            if (attackBody is null)
+                CharacterBody.Instance.LevelSystem.AddExperience(experience);
         };
+        body.OnDamageTaken += (t, _) => attackBody = t;
     }
 
     private void Start()
     {
         StartCoroutine(Movement());
-        MapNavigation.Instance.AddEntity(transform);
-        GetComponent<MortalBody>().OnDie += () => MapNavigation.Instance.RemoveEntity(transform);
+        MapNavigation.Instance.AddEntity(transform, true);
+        body.OnDie += () => MapNavigation.Instance.RemoveEntity(transform);
     }
 
     // Update is called once per frame
@@ -46,7 +50,7 @@ public class EnemyBrain : MonoBehaviour
     private void MakeMove()
     {
         var startCell = MapNavigation.Instance.GetCellPosition(transform.position);
-        var hostilePosition = MapNavigation.Instance.GetPlayerPosition();
+        var hostilePosition = attackBody ? MapNavigation.Instance.GetCellPosition(attackBody.position) : MapNavigation.Instance.GetPlayerPosition();
         var direction = (hostilePosition - startCell);
         if (direction.sqrMagnitude < 1.01)
         {
@@ -55,7 +59,7 @@ public class EnemyBrain : MonoBehaviour
             return;
         }
 
-        var nextPoint = MapNavigation.Instance.GetPathPointToPlayer(startCell, overviewDistance);
+        var nextPoint = MapNavigation.Instance.GetPathPoint(startCell, hostilePosition, overviewDistance);
         if (nextPoint is null)
         {
             var randomDirection = MapNavigation.Ways[Random.Range(0, 4)];

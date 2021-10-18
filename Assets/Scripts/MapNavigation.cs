@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,27 +9,29 @@ public class MapNavigation : MonoBehaviour
 
     [SerializeField]
     private Tilemap solidTilemap;
-    [SerializeField]
-    private List<Transform> entityList;
+
+    
     [SerializeField]
     private Transform player;
+
+    private readonly List<(Transform transform, bool isEnemy)> entityList = new List<(Transform transform, bool isEnemy)>();
 
     public static MapNavigation Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
-        entityList.Add(player);
+        entityList.Add((player, false));
     }
 
-    public void AddEntity(Transform entity)
+    public void AddEntity(Transform entity, bool isEnemy)
     {
-        entityList.Add(entity);
+        entityList.Add((entity, isEnemy));
     }
 
     public void RemoveEntity(Transform entity)
     {
-        entityList.Remove(entity);
+        entityList.RemoveAt(entityList.FindIndex(e => e.transform == entity));
     }
 
     public Vector2Int GetCellPosition(Vector2 position)
@@ -44,6 +47,20 @@ public class MapNavigation : MonoBehaviour
     public Vector2Int GetPlayerPosition()
     {
         return GetCellPosition(player.position);
+    }
+
+    public Vector2Int? GetClosestEnemyPosition(Vector2 position, int radius)
+    {
+        var sqrRadius = Mathf.Pow(radius, 2);
+        var list = entityList
+            .Select(e => (((Vector2) e.transform.position - position).sqrMagnitude, e))
+            .Where(e => e.e.isEnemy && e.sqrMagnitude < sqrRadius)
+            .OrderBy(e => e.sqrMagnitude)
+            .ToList();
+
+        if (list.Count > 0)
+            return GetCellPosition(list[0].e.transform.position);
+        return null;
     }
 
     public Vector2Int? GetPathPointToPlayer(Vector2Int startCell, int seekDistance)
@@ -99,6 +116,6 @@ public class MapNavigation : MonoBehaviour
         if (solidTilemap.HasTile((Vector3Int) cellPosition))
             return false;
 
-        return !entityList.Exists(t => GetCellPosition(t.position) == cellPosition);
+        return !entityList.Exists(t => GetCellPosition(t.transform.position) == cellPosition);
     }
 }

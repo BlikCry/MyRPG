@@ -19,14 +19,17 @@ public class MortalBody : MonoBehaviour, ISaveDataProvider
     public float Health => RealHealth;
     public event Action OnDie;
 
+    public event Action<Transform, float> OnDamageTaken;
+
     private float RealHealth
     {
         get => health * HealthMultiplier;
         set => health = value / HealthMultiplier;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform attacker=null)
     {
+        OnDamageTaken?.Invoke(attacker, damage);
         RealHealth -= CalculateDamage(damage);
         CheckHealth();
     }

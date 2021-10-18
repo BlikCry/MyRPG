@@ -10,7 +10,7 @@ namespace Objects
         [SerializeField]
         private TraderData traderData;
 
-        private void Start()
+        protected override void OnStart()
         {
             spriteRenderer.sprite = traderData.Icon;
         }

@@ -44,7 +44,7 @@ public class CharacterBrain : MonoBehaviour
         var tile = Physics2D.OverlapPoint(nextPosition);
         if (tile is null)
             transform.position = nextPosition;
-        else if (tile.TryGetComponent<MortalBody>(out var tileBody))
+        else if (tile.GetComponent<EnemyBrain>() && tile.TryGetComponent<MortalBody>(out var tileBody))
         {
             tileBody.TakeDamage(body.Damage);
             RunAttackAnimation(nextPosition);

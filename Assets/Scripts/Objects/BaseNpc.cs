@@ -19,6 +19,13 @@ namespace Objects
             Flip();
         }
 
+        private void Start()
+        {
+            MapNavigation.Instance.AddEntity(transform, false);
+        }
+
+        protected virtual void OnStart() {}
+
         private void Flip()
         {
             spriteRenderer.flipX = !spriteRenderer.flipX;
